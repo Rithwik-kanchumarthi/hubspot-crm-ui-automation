@@ -1,5 +1,5 @@
 ======================================================================
-# hubspot-crm-ui-automation
+# hubspot-crm-ui-automation-framework
 ======================================================================
 # 🚀 HubSpot CRM Automation Testing Framework
 
