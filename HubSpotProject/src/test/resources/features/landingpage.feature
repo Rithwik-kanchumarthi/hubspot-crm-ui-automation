@@ -7,10 +7,10 @@ Feature: HubSpot CRM Page Validation
     Then the page title should be "Streamline Your Entire Business with a Free CRM | HubSpot"
     
 	@Regression
-  Scenario: Verify HubSpot Logo Navigation
+  Scenario: Verify Get free CRM button is Enabled
     Given I open the HubSpot CRM product page
     When I click the Get free CRM button
-    Then Get free CRM button should be Enabled
+    Then the free CRM page title should be "Get started with HubSpot"
     
 	@Regression
   Scenario: Submit demo form with valid data

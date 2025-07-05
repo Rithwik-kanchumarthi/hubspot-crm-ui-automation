@@ -36,6 +36,8 @@ public class LandingPageSteps
     public void verify_page_title(String expectedTitle) 
     {
         String actualTitle = driver.getTitle();
+        System.out.println(actualTitle);
+        System.out.println(expectedTitle);
         Assert.assertEquals(actualTitle, expectedTitle);
     }
     
@@ -48,26 +50,32 @@ public class LandingPageSteps
     }
 
     @When("I click the Get free CRM button")
-    public void click_Get_free_CRM_button()
+    public void click_Get_free_CRM_button() throws InterruptedException
     {
         landingPage.clickCRMButton();
+        Thread.sleep(5000);
     }
 
-    @Then("Get free CRM button should be Enabled")
-    public void validate_homepage_navigation() 
+    @Then("the free CRM page title should be {string}")
+    public void free_CRMpageTitle(String expectedTitle) 
     {
-        assertTrue(driver.findElement(By.cssSelector(".cl-button.-primary.-medium.wf-page-header__cta.freecrm-hero")).isEnabled());
+        String actualTitle = driver.getTitle();
+        System.out.println(actualTitle);
+        System.out.println(expectedTitle);
+        Assert.assertEquals(actualTitle, expectedTitle);
     }
 
     @Given("I open the CRM demo page")
-    public void open_demo_form_page() {
+    public void open_demo_form_page() 
+    {
         driver = BaseTest.getDriver();
         driver.get("https://www.hubspot.com/products/crm/demo");
         demoForm = new DemoFormPage(driver);
     }
 
     @When("I fill and submit valid form details")
-    public void fill_form() throws InterruptedException {
+    public void fill_form() throws InterruptedException 
+    {
         demoForm.fillForm("Rithwik Venkatesh", "Kanchumarthi", "ritturithwik@gmail.com", "6303864339", "TCS", "http://tcs.com", "India");
         demoForm.submit();
         Thread.sleep(5000);
