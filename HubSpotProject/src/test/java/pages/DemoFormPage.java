@@ -22,14 +22,14 @@ public class DemoFormPage
         this.driver = driver;
     }
 
-    public void fillForm(String fn, String ln, String em, String ph, String co, String we, String hq) {
+    public void fillForm(String fn, String ln, String em, String ph, String co, String we, String emp, String hq) {
         driver.findElement(firstName).sendKeys(fn);
         driver.findElement(lastName).sendKeys(ln);
         driver.findElement(email).sendKeys(em);
         driver.findElement(phone).sendKeys(ph);
         driver.findElement(company).sendKeys(co);
         driver.findElement(website).sendKeys(we);
-        employeesDropdown();
+        driver.findElement(employees).sendKeys(emp);
         driver.findElement(headquarters).sendKeys(hq);
         
     }

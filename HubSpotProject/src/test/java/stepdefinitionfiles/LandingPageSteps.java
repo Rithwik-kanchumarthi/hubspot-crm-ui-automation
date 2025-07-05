@@ -76,7 +76,7 @@ public class LandingPageSteps
     @When("I fill and submit valid form details")
     public void fill_form() throws InterruptedException 
     {
-        demoForm.fillForm("Rithwik Venkatesh", "Kanchumarthi", "ritturithwik@gmail.com", "6303864339", "TCS", "http://tcs.com", "India");
+        demoForm.fillForm("Rithwik Venkatesh", "Kanchumarthi", "ritturithwik@gmail.com", "6303864339", "TCS", "http://tcs.com", "1", "India");
         demoForm.submit();
         Thread.sleep(5000);
     }
