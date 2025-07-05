@@ -6,16 +6,16 @@ import org.openqa.selenium.WebDriver;
 public class LandingPage {
     private WebDriver driver;
 
-    By hubspotLogo = By.cssSelector("a.hs-logo");
+    By freeCRMbutton = By.cssSelector(".cl-button.-primary.-medium.wf-page-header__cta.freecrm-hero");
 
 	public LandingPage(WebDriver driver)
 	{
 		this.driver = driver;
 	}
 
-	public void clickLogo() 
+	public void clickCRMButton() 
 	{
-		driver.findElement(hubspotLogo).click();
+		driver.findElement(freeCRMbutton).click();
 	}
 
 }

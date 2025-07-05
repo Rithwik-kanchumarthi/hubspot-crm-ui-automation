@@ -4,12 +4,12 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
-		features = "src/test/java/features",
+		features = "src/test/resources/features",
 		glue = {"stepdefinitionfiles", "hooks"},
 		plugin = {"pretty", "html:target/cucumber-report.html"},
-		tags = "@regression",
+		tags = "@Regression",
 		monochrome = true
 		)
 
-public class TestRunner extends AbstractTestNGCucumberTests {
+public class TestNGRunner extends AbstractTestNGCucumberTests {
 }
