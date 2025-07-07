@@ -1,10 +1,17 @@
 package stepdefinitionfiles;
 
 import base.BaseTest;
+import hooks.Hooks;
 import io.cucumber.java.en.*;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import pages.DemoFormPage;
@@ -12,11 +19,14 @@ import pages.LandingPage;
 
 import static org.testng.Assert.*;
 
+import java.util.List;
+
 public class LandingPageSteps 
 {
-    WebDriver driver;
+	WebDriver driver;
     LandingPage landingPage;
     DemoFormPage demoForm;
+    Actions actions;
 
     @Given("I launch the browser")
     public void i_launch_the_browser() 
@@ -53,7 +63,7 @@ public class LandingPageSteps
     public void click_Get_free_CRM_button() throws InterruptedException
     {
         landingPage.clickCRMButton();
-        Thread.sleep(5000);
+        Thread.sleep(3000);
     }
 
     @Then("the free CRM page title should be {string}")
@@ -64,29 +74,59 @@ public class LandingPageSteps
         System.out.println(expectedTitle);
         Assert.assertEquals(actualTitle, expectedTitle);
     }
-
-    @Given("I open the CRM demo page")
-    public void open_demo_form_page() 
+    
+    @When("I click the Log in button")
+    public void i_verify_the_button_is_enabled() throws InterruptedException 
     {
-        driver = BaseTest.getDriver();
-        driver.get("https://www.hubspot.com/products/crm/demo");
-        demoForm = new DemoFormPage(driver);
+    	Thread.sleep(10000);
+    	try 
+    	{
+    	    Alert alert = driver.switchTo().alert();
+    	    System.out.println("Alert detected: " + alert.getText());
+    	    alert.dismiss(); // or alert.accept();
+    	}
+    	catch (NoAlertPresentException e) 
+    	{
+    	    System.out.println("No alert present");
+    	}
+    	
+		landingPage.clickLogin();
     }
 
-    @When("I fill and submit valid form details")
-    public void fill_form() throws InterruptedException 
+    @Then("I should be redirected to the login page")
+    public void i_should_be_redirected_to_the_login_page()
     {
-        demoForm.fillForm("Rithwik Venkatesh", "Kanchumarthi", "ritturithwik@gmail.com", "6303864339", "TCS", "http://tcs.com", "1", "India");
-        demoForm.submit();
-        Thread.sleep(5000);
+        String currentUrl = driver.getCurrentUrl();
+        Assert.assertTrue(currentUrl.contains("app.hubspot.com/login?hubs_signup-url=www.hubspot.com"));
     }
 
-    @Then("I should see a redirection")
-    public void verify_success() 
+    @When("I click on the {string} dropdown")
+    public void i_click_on_the_dropdown(String dropdownName) 
     {
-    	String redirectedurl = driver.getCurrentUrl();
-    	String expectedurl = "https://offers.hubspot.com/thank-you/starter-platform-demo?hubs_signup-url=https%3A%2F%2Foffers.hubspot.com%2Fcrm-platform-demo";
-    	Assert.assertEquals(redirectedurl,expectedurl);
+    	landingPage.clickDropdown();
     }
+
+    @Then("The {string} dropdown should be Selected")
+    public void the_dropdown_should_be_selected(String dropdownName)
+    {
+    	landingPage.dropDownisSelected();
+    }
+
+    @And("All options are listed and click on {string}")
+    public void all_options_are_listed_and_click_on_menu(String menuButton) 
+    {
+        WebElement options = driver.findElement(By.xpath("//h3[@class='global-nav-card-title' and text()='" + menuButton + "']"));
+        Assert.assertTrue(options.isDisplayed());
+        Assert.assertTrue(options.isEnabled());
+        options.click();
+    }
+
+    @Then("{string} should be clickable")
+    public void menu_should_be_clickable(String menuButton) 
+    {
+    	WebElement options = driver.findElement(By.xpath("//h3[@class='global-nav-card-title' and text()='" + menuButton + "']"));
+    	Assert.assertTrue(options.isSelected());;
+    }
+
 }
 

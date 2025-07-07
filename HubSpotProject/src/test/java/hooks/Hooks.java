@@ -9,6 +9,7 @@ public class Hooks
 	@Before
     public void setUp() {
         BaseTest.initializeDriver();
+   
     }
 
     @After
