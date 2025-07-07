@@ -11,5 +11,6 @@ This repository contains an automated test framework for validating the **HubSpo
 - TestNG & JUnit
 - Maven
 - Page Object Model (POM)
+- Jenkins
 
 
