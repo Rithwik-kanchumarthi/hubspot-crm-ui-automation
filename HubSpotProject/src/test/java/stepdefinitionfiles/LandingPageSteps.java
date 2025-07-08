@@ -79,8 +79,6 @@ public class LandingPageSteps
     public void i_verify_the_button_is_enabled() throws InterruptedException 
     {
     	Thread.sleep(5000);
-    	landingPage.handleAlert();
-    	landingPage.acceptCookiesIfPresent();
 		landingPage.clickLogin();
     }
 

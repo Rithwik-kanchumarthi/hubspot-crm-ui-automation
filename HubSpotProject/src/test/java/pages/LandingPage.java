@@ -10,7 +10,6 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -18,7 +17,6 @@ public class LandingPage
 {
     WebDriver driver;
     WebDriverWait wait;
-    Actions actions = new Actions(driver);
 
     By freeCRMbutton = By.xpath("//a[@rel='noreferrer ']");
     By submitButton = By.cssSelector("input[type='submit']");
@@ -43,15 +41,15 @@ public class LandingPage
 	public void clickLogin() throws InterruptedException 
 	{
 		handleAlert();
-        acceptCookiesIfPresent();
+		acceptCookiesIfPresent();
 		WebElement loginBtn = wait.until(ExpectedConditions.elementToBeClickable(loginButton));
 		((JavascriptExecutor) driver).executeScript("arguments[0].click();", loginBtn);
 	}
 	
 	public void clickDropdown(String dropDownName) 
 	{
-        handleAlert();
-        acceptCookiesIfPresent();
+		handleAlert();
+		acceptCookiesIfPresent();
 		By dropDownButton = By.xpath("//span[@class='global-nav-tab-title cl-navLink-link ga_nav_link' and text()='" + dropDownName + "']");
 		WebElement dropDown = wait.until(ExpectedConditions.elementToBeClickable(dropDownButton));
 		dropDown.click();
@@ -60,8 +58,8 @@ public class LandingPage
 	public void dropDownisEnabled(String dropDownName)
 	{
 		handleAlert();
-        acceptCookiesIfPresent();
-		By dropDownButton = By.xpath("//span[text()='" + dropDownName + "']");
+		acceptCookiesIfPresent();
+		By dropDownButton = By.xpath("//span[@class='global-nav-tab-title cl-navLink-link ga_nav_link' and text()='" + dropDownName + "']");
 		WebElement dropDown = wait.until(ExpectedConditions.elementToBeClickable(dropDownButton));
 		dropDown.click();
 		boolean dropDownSelect = dropDown.isEnabled();
@@ -71,10 +69,11 @@ public class LandingPage
 	public void clickMenu(String menuButton)
 	{
 		handleAlert();
-        acceptCookiesIfPresent();
+		acceptCookiesIfPresent();
 		By clickMenuButton = By.xpath("(//li//a[@data-ga_nav_tree_text='" + menuButton + "'])[1]");
+		//li[@class="global-nav-main-products-hub-list-item "]//a[@data-ga_nav_tree_text="Marketing Hub"]
 		WebElement clickMenu = wait.until(ExpectedConditions.elementToBeClickable(clickMenuButton));
-		actions.moveToElement(clickMenu).click().perform();
+        clickMenu.click();
 	}
 	
 	public void pageRedirected(String partialUrl)
