@@ -12,17 +12,17 @@ Scenario: Verify Get free CRM button is Enabled
   When I click the Get free CRM button
   Then the free CRM page title should be "Get started with HubSpot"
     
-@Smoke @Regression @Test
+@Smoke @Regression 
 Scenario: Verify login button is enabled and redirects to login page
   Given I open the HubSpot CRM product page
   When I click the Log in button
   Then I should be redirected to the login page
   
-@Smoke @Regression 
+@Smoke @Regressio
   Scenario Outline: Verify top navigation dropdown "<dropdownName>" is enabled and clickable
     Given I open the HubSpot CRM product page
     When I click on the "<dropdownName>" dropdown
-    Then The "<dropdownName>" dropdown should be Selected
+    Then The "<dropdownName>" dropdown should be Enabled
 
     Examples:
       | dropdownName |
@@ -30,23 +30,20 @@ Scenario: Verify login button is enabled and redirects to login page
       | Solutions    |
       | Resources    |
   	
-@Smoke @Regression
+@Smoke @Regression @Test
 Scenario Outline: Click on "<menuButton>" from "<dropdownName>" dropdown
   	Given I open the HubSpot CRM product page
   	When I click on the "<dropdownName>" dropdown
-  	And All options are listed and click on "<menuButton>"
-  	Then "<menuButton>" should be clickable
+  	And I click on "<menuButton>" menu button
+  	Then Page should be redirected to "<partialUrl>"
   	
   	Examples:
-    | dropdownName | menuButton               |
-    | Products     | Marketing Hub            |
-    | Products     | Sales Hub                |
-    | Products     | Service Hub              |
-    | Products     | Content Hub              |
-    | Products     | Operation Hub            |
-    | Products     | Commerce Hub             |
-    | Solutions    | Generating leads         |
-    | Solutions    | Build pipeline           |
-    | Resources    | INBOUND Event            |
-    | Resources    | Hubspot Community        |
+    | dropdownName | menuButton               | partialUrl |
+    | Products     | Marketing Hub            | marketing  |
+    | Products     | Sales Hub                | sales      |
+    | Products     | Service Hub              | service    |
+    | Products     | Content Hub              | content    |
+    | Products     | Operation Hub            | operation  |
+    | Products     | Commerce Hub             | commerce   |
+    
   	

@@ -78,18 +78,9 @@ public class LandingPageSteps
     @When("I click the Log in button")
     public void i_verify_the_button_is_enabled() throws InterruptedException 
     {
-    	Thread.sleep(10000);
-    	try 
-    	{
-    	    Alert alert = driver.switchTo().alert();
-    	    System.out.println("Alert detected: " + alert.getText());
-    	    alert.dismiss(); // or alert.accept();
-    	}
-    	catch (NoAlertPresentException e) 
-    	{
-    	    System.out.println("No alert present");
-    	}
-    	
+    	Thread.sleep(5000);
+    	landingPage.handleAlert();
+    	landingPage.acceptCookiesIfPresent();
 		landingPage.clickLogin();
     }
 
@@ -103,29 +94,25 @@ public class LandingPageSteps
     @When("I click on the {string} dropdown")
     public void i_click_on_the_dropdown(String dropdownName) 
     {
-    	landingPage.clickDropdown();
+    	landingPage.clickDropdown(dropdownName);
     }
 
-    @Then("The {string} dropdown should be Selected")
+    @Then("The {string} dropdown should be Enabled")
     public void the_dropdown_should_be_selected(String dropdownName)
     {
-    	landingPage.dropDownisSelected();
+    	landingPage.dropDownisEnabled(dropdownName);
     }
 
-    @And("All options are listed and click on {string}")
+    @And("I click on {string} menu button")
     public void all_options_are_listed_and_click_on_menu(String menuButton) 
     {
-        WebElement options = driver.findElement(By.xpath("//h3[@class='global-nav-card-title' and text()='" + menuButton + "']"));
-        Assert.assertTrue(options.isDisplayed());
-        Assert.assertTrue(options.isEnabled());
-        options.click();
+    	landingPage.clickMenu(menuButton);
     }
 
-    @Then("{string} should be clickable")
-    public void menu_should_be_clickable(String menuButton) 
+    @Then("Page should be redirected to {string}")  
+    public void menu_should_be_clickable(String partialUrl)
     {
-    	WebElement options = driver.findElement(By.xpath("//h3[@class='global-nav-card-title' and text()='" + menuButton + "']"));
-    	Assert.assertTrue(options.isSelected());;
+    	landingPage.pageRedirected(partialUrl);
     }
 
 }
