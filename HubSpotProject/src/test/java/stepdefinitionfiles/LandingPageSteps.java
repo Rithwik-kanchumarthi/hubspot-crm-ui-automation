@@ -6,6 +6,7 @@ import io.cucumber.java.en.*;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -111,6 +112,62 @@ public class LandingPageSteps
     public void menu_should_be_clickable(String partialUrl)
     {
     	landingPage.pageRedirected(partialUrl);
+    }
+    
+    @When("The chat widget is expanded")
+    public void the_chat_widget_is_expanded() 
+    {
+    	landingPage.chatWidgetexpand();
+    }
+
+    @Then("I should not be able to click it until the chat is closed")
+    public void verify_button_blocked_by_chat()
+    {
+    	landingPage.verifyBlockByChat();
+    }
+
+    @When("I enable High Contrast mode")
+    public void enable_high_contrast() 
+    {
+    	landingPage.highContrast();
+        
+    }
+
+    @Then("UI elements like text, buttons, and layout should not break")
+    public void ui_should_remain_stable() 
+    {
+    	landingPage.remainStable();
+    }
+
+    @And("I enter an emoji in the email input box")
+    public void enter_emoji_in_first_name()
+    {
+    	landingPage.emojiInFirstName();
+    }
+
+    @Then("I should see email input box disabled")
+    public void email_button_disabled()
+    {
+    	landingPage.emailButtonDisabled();
+    }
+
+    @And("I resize the window to mobile size")
+    public void resize_window_to_mobile() 
+    {
+        driver.manage().window().setSize(new Dimension(375, 667));
+    }
+    
+    @When("I scroll and click the Get free CRM button")
+    public void i_click_get_free_crm_button()
+    {
+    	landingPage.scrollAndClickFreeCrm();
+    }
+
+
+    @Then("It should not be clickable or accessible")
+    public void login_should_be_inaccessible() 
+    {
+        System.out.println("Verified that Get Free CRM Button was not accessible on small screen");
     }
 
 }

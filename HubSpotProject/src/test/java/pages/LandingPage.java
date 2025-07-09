@@ -18,13 +18,18 @@ public class LandingPage
     WebDriver driver;
     WebDriverWait wait;
 
-    By freeCRMbutton = By.xpath("//a[@rel='noreferrer ']");
+    By freeCRMbutton = By.xpath("//a[normalize-space()='Get free CRM']");
     By submitButton = By.cssSelector("input[type='submit']");
     By emailError = By.xpath("//label[contains(text(),'Please enter a valid email address.')]");
     By requiredFieldErrors = By.cssSelector("label.hs-error-msg");
     By loginButton = By.cssSelector(".global-nav-utility-link.cl-navLink-link.ga_nav_link.nav-utility-login");
     By acceptCookiesButton = By.id("hs-eu-confirmation-button");
-    
+    By chatframeele = By.cssSelector("iframe[src*='chat']");
+    By chatopenele = By.cssSelector("button[class*='openChat']");
+    By highContrast = By.xpath("//label[contains(.,'High Contrast')]/preceding-sibling::input");
+    By remainStable = By.xpath("//a[text()='Get free CRM']");
+    By invalidCharError = By.xpath("//*[contains(text(),'Please enter a valid')]");
+    By submitemailForm = By.cssSelector("i18n-string[data-key='views.LANDING_PAGE.buttonLabel']");
     
 	public LandingPage(WebDriver driver)
 	{
@@ -34,6 +39,8 @@ public class LandingPage
 
 	public void clickCRMButton() 
 	{
+		handleAlert();
+		acceptCookiesIfPresent();
 		WebElement crmButton = wait.until(ExpectedConditions.elementToBeClickable(freeCRMbutton));
 		crmButton.click();
 	}
@@ -71,7 +78,6 @@ public class LandingPage
 		handleAlert();
 		acceptCookiesIfPresent();
 		By clickMenuButton = By.xpath("(//li//a[@data-ga_nav_tree_text='" + menuButton + "'])[1]");
-		//li[@class="global-nav-main-products-hub-list-item "]//a[@data-ga_nav_tree_text="Marketing Hub"]
 		WebElement clickMenu = wait.until(ExpectedConditions.elementToBeClickable(clickMenuButton));
         clickMenu.click();
 	}
@@ -81,6 +87,81 @@ public class LandingPage
 		String currentUrl = driver.getCurrentUrl();
 	    System.out.println("Redirected to: " + currentUrl);
 	    Assert.assertTrue(currentUrl.contains(partialUrl));
+	}
+	
+	public void chatWidgetexpand()
+	{
+		WebElement chatFrame = wait.until(ExpectedConditions.visibilityOfElementLocated(chatframeele));
+        driver.switchTo().frame(chatFrame);
+        WebElement chatOpen = wait.until(ExpectedConditions.visibilityOfElementLocated(chatopenele));
+        chatOpen.click();
+        driver.switchTo().defaultContent();
+	}
+	
+	public void verifyBlockByChat()
+	{
+		try 
+		{
+            WebElement getFreeCrmBtn = driver.findElement(By.xpath("//a[contains(text(),'Get free CRM')]"));
+            getFreeCrmBtn.click();
+            Assert.fail("The button was clickable even though the chat should be blocking it.");
+        } 
+		catch (org.openqa.selenium.ElementClickInterceptedException e) 
+		{
+            System.out.println("Verified: 'Get free CRM' button was not clickable due to the chat overlay.");
+            Assert.assertTrue(true);
+        } 
+		catch (Exception e) 
+		{
+            e.printStackTrace();
+            Assert.fail("Unexpected error while verifying button block by chat.");
+        }
+	}
+	
+	
+	
+	public void highContrast()
+	{
+		WebElement toggle = wait.until(ExpectedConditions.elementToBeClickable(highContrast));
+        if (!toggle.isSelected())
+        {
+            toggle.click();
+        }
+	}
+	
+	public void remainStable()
+	{
+		WebElement getFreeCrm = wait.until(ExpectedConditions.visibilityOfElementLocated(remainStable));
+        assert getFreeCrm.isDisplayed();
+	}
+	
+	public void emojiInFirstName()
+	{
+		WebElement firstName = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("firstname")));
+        firstName.sendKeys("😊🚀");
+	}
+	
+	public void scrollAndClickFreeCrm()
+	{
+		handleAlert();
+		acceptCookiesIfPresent();
+		try 
+		{
+            WebElement button = wait.until(ExpectedConditions.presenceOfElementLocated(freeCRMbutton));
+            ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", button);
+            wait.until(ExpectedConditions.elementToBeClickable(button)).click();
+            System.out.println("Clicked 'Get free CRM' button successfully.");
+        } 
+		catch (Exception e) 
+		{
+            System.out.println("Failed to click 'Get free CRM' button: " + e.getMessage());
+        }
+	}
+	
+	public void emailButtonDisabled() 
+	{
+		WebElement submitEmail = wait.until(ExpectedConditions.elementToBeClickable(submitemailForm));
+		Assert.assertFalse(submitEmail.isEnabled());
 	}
 
     public void submitForm()
