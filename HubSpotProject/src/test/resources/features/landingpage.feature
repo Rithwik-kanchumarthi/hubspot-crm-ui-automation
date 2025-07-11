@@ -12,7 +12,7 @@ Scenario: Verify Get free CRM button is Enabled
   When I click the Get free CRM button
   Then the free CRM page title should be "Get started with HubSpot"
     
-@Smoke @Regression 
+@Smoke @Regression
 Scenario: Verify login button is enabled and redirects to login page
   Given I open the HubSpot CRM product page
   When I click the Log in button
@@ -59,7 +59,7 @@ Scenario: Toggle High Contrast mode and check broken UI
   When I enable High Contrast mode
   Then UI elements like text, buttons, and layout should not break
 
-@Negative @Validation @Regression @Test
+@Negative @Validation @Regression 
 Scenario: Open "Get free CRM" form and input emoji in name field
   Given I open the HubSpot CRM product page
   When I click the Get free CRM button
@@ -72,6 +72,13 @@ Scenario: Click "Get free CRM" button when it is partially hidden
   And I resize the window to mobile size
   When I scroll and click the Get free CRM button
   Then It should not be clickable or accessible
+  
+@Regression @Test
+Scenario: Validate footer links navigation
+Given I open the HubSpot CRM product page
+When I scroll down to the footer
+Then All visible links should be clickable
+And Redirect to the correct pages
 
     
   	
