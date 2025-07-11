@@ -13,4 +13,19 @@ This repository contains an automated test framework for validating the **HubSpo
 - Page Object Model (POM)
 - Jenkins
 
+👨‍💻 Author
+Rithwik Kanchumarthi
+
+🔗 GitHub
+💼 Automation Test Engineer | 3 YOE | Java | Selenium | Cucumber | TestNG | RestAssured
+
+📌 Future Enhancements
+CI/CD with GitHub Actions or Jenkins
+
+Browser compatibility testing
+
+Full API test integration
+
+Docker containerization
+
 
