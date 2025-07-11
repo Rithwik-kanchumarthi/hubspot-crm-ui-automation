@@ -167,6 +167,8 @@ public class LandingPage
 	
 	public void footerLinks() 
 	{
+		handleAlert();
+		acceptCookiesIfPresent();
 		List<WebElement> footerLinksVar = driver.findElements(footerLinks);
 		for (WebElement link : footerLinksVar) 
 		{

@@ -169,7 +169,7 @@ public class LandingPageSteps
 		System.out.println("Verified that Get Free CRM Button was not accessible on small screen");
 	}
 
-	@When("I scroll to the footer section")
+	@When("I scroll down to the footer")
 	public void scroll_to_footer() 
 	{
 		landingPage.scrollToFooter();
@@ -181,7 +181,7 @@ public class LandingPageSteps
 		landingPage.footerLinks();
 	}
 
-	@Then("All footer links should be clickable and navigable")
+	@And("All footer links should be clickable and navigable")
 	public void validate_all_footer_links() 
 	{
 		landingPage.validateFooterLinks();

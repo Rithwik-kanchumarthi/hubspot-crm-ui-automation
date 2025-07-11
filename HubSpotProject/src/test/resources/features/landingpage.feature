@@ -77,8 +77,8 @@ Scenario: Click "Get free CRM" button when it is partially hidden
 Scenario: Validate footer links navigation
 Given I open the HubSpot CRM product page
 When I scroll down to the footer
-Then All visible links should be clickable
-And Redirect to the correct pages
+Then I should see all footer links are displayed
+And All footer links should be clickable and navigable
 
     
   	

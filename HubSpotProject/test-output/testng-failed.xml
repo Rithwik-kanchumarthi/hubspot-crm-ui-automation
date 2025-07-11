@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [HubSpot Automation Suite]">
+  <test name="Cucumber Tests(failed)">
+    <classes>
+      <class name="runners.TestNGRunner">
+        <methods>
+          <include name="runScenario" invocation-numbers="1 2 3 15 16 17"/>
+          <include name="tearDownClass"/>
+          <include name="setUpClass"/>
+        </methods>
+      </class> <!-- runners.TestNGRunner -->
+    </classes>
+  </test> <!-- Cucumber Tests(failed) -->
+</suite> <!-- Failed suite [HubSpot Automation Suite] -->
