@@ -16,9 +16,6 @@ This repository contains an automated test framework for validating the **HubSpo
 👨‍💻 Author
 Rithwik Kanchumarthi
 
-🔗 GitHub
-💼 Automation Test Engineer | 3 YOE | Java | Selenium | Cucumber | TestNG | RestAssured
-
 📌 Future Enhancements
 CI/CD with GitHub Actions or Jenkins
 
