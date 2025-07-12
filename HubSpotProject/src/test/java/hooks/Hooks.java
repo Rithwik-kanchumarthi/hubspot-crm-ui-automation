@@ -7,13 +7,15 @@ import io.cucumber.java.Before;
 public class Hooks 
 {
 	@Before
-    public void setUp() {
+    public void setUp() 
+	{
         BaseTest.initializeDriver();
    
     }
 
     @After
-    public void tearDown() {
+    public void tearDown()
+    {
         BaseTest.quitDriver();
     }
 

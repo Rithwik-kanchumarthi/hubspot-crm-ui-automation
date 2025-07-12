@@ -7,7 +7,7 @@ import io.cucumber.testng.CucumberOptions;
 		features = "src/test/resources/features",
 		glue = {"stepdefinitionfiles", "hooks"},
 		plugin = {"pretty", "html:target/cucumber-report.html"},
-		tags = "@Regression",
+		tags = "@Test",
 		monochrome = true
 		)
 
