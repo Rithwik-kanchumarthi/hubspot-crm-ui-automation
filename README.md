@@ -20,9 +20,6 @@ Rithwik Kanchumarthi
 CI/CD with GitHub Actions or Jenkins
 
 Browser compatibility testing
-
-Full API test integration
-
 Docker containerization
 
 
