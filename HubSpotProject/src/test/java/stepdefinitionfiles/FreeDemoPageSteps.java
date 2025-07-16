@@ -18,7 +18,7 @@ public class FreeDemoPageSteps
 	LandingPage landingPage;
 	DemoFormPage demoForm;
 
-	@Given("I open the CRM demo page")
+	@Given("User open the CRM demo page")
 	public void open_demo_form_page() 
 	{
 		driver = BaseTest.getDriver();
@@ -26,7 +26,7 @@ public class FreeDemoPageSteps
 		demoForm = new DemoFormPage(driver);
 	}
 
-	@When("I fill and submit valid form details")
+	@When("User fill and submit valid form details")
 	public void fill_form() throws InterruptedException 
 	{
 		demoForm.fillForm("Rithwik Venkatesh", "Kanchumarthi", "ritturithwik@gmail.com", "6303864339", "TCS", "http://tcs.com", "1", "India");
@@ -34,7 +34,7 @@ public class FreeDemoPageSteps
 		Thread.sleep(5000);
 	}
 
-	@Then("I should see a redirection")
+	@Then("User should see a redirection")
 	public void verify_success() 
 	{
 		String redirectedurl = driver.getCurrentUrl();
@@ -42,31 +42,31 @@ public class FreeDemoPageSteps
 		Assert.assertEquals(redirectedurl,expectedurl);
 	}
 
-	@When("I submit the demo form with missing required fields")
+	@When("User submit the demo form with missing required fields")
 	public void submit_form_with_missing_fields() 
 	{
 		demoForm.submitWithMissingFields();
 	}
 
-	@Then("I should see validation error messages for required fields")
+	@Then("User should see validation error messages for required fields")
 	public void validate_required_field_errors() 
 	{
 		Assert.assertTrue(demoForm.isRequiredFieldErrorDisplayed());
 	}
 
-	@When("I submit the demo form with invalid email address")
+	@When("User submit the demo form with invalid email address")
 	public void submit_form_with_invalid_email() 
 	{
 		demoForm.fillFormWithInvalidEmail();
 	}
 
-	@Then("I should see a validation error for email field")
+	@Then("User should see a validation error for email field")
 	public void validate_email_error() 
 	{
 		Assert.assertTrue(demoForm.isEmailErrorDisplayed());
 	}
 
-	@Then("I should see the {string} heading")
+	@Then("User should see the {string} heading")
 	public void i_should_see_heading(String headingText) 
 	{
 		demoForm.headingIsVisible(headingText);

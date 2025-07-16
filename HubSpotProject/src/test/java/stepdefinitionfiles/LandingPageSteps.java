@@ -29,13 +29,13 @@ public class LandingPageSteps
 	DemoFormPage demoForm;
 	Actions actions;
 
-	@Given("I launch the browser")
+	@Given("User launch the browser")
 	public void i_launch_the_browser() 
 	{
 		driver = BaseTest.getDriver();
 	}
 
-	@When("I open the CRM product page")
+	@When("User open the CRM product page")
 	public void i_open_the_crm_product_page() 
 	{
 		driver = BaseTest.getDriver();
@@ -52,7 +52,7 @@ public class LandingPageSteps
 		Assert.assertEquals(actualTitle, expectedTitle);
 	}
 
-	@Given("I open the HubSpot CRM product page")
+	@Given("User open the HubSpot CRM product page")
 	public void i_open_the_hubspot_crm_product_page() 
 	{
 		driver = BaseTest.getDriver();
@@ -60,7 +60,7 @@ public class LandingPageSteps
 		landingPage = new LandingPage(driver);
 	}
 
-	@When("I click the Get free CRM button")
+	@When("User click the Get free CRM button")
 	public void click_Get_free_CRM_button() throws InterruptedException
 	{
 		landingPage.clickCRMButton();
@@ -76,21 +76,21 @@ public class LandingPageSteps
 		Assert.assertEquals(actualTitle, expectedTitle);
 	}
 
-	@When("I click the Log in button")
+	@When("User click the Log in button")
 	public void i_verify_the_button_is_enabled() throws InterruptedException 
 	{
 		Thread.sleep(5000);
 		landingPage.clickLogin();
 	}
 
-	@Then("I should be redirected to the login page")
+	@Then("User should be redirected to the login page")
 	public void i_should_be_redirected_to_the_login_page()
 	{
 		String currentUrl = driver.getCurrentUrl();
 		Assert.assertTrue(currentUrl.contains("app.hubspot.com/login?hubs_signup-url=www.hubspot.com"));
 	}
 
-	@When("I click on the {string} dropdown")
+	@When("User click on the {string} dropdown")
 	public void i_click_on_the_dropdown(String dropdownName) 
 	{
 		landingPage.clickDropdown(dropdownName);
@@ -102,7 +102,7 @@ public class LandingPageSteps
 		landingPage.dropDownisEnabled(dropdownName);
 	}
 
-	@And("I click on {string} menu button")
+	@And("User click on {string} menu button")
 	public void all_options_are_listed_and_click_on_menu(String menuButton) 
 	{
 		landingPage.clickMenu(menuButton);
@@ -120,13 +120,13 @@ public class LandingPageSteps
 		landingPage.chatWidgetexpand();
 	}
 
-	@Then("I should not be able to click it until the chat is closed")
+	@Then("User should not be able to click it until the chat is closed")
 	public void verify_button_blocked_by_chat()
 	{
 		landingPage.verifyBlockByChat();
 	}
 
-	@When("I enable High Contrast mode")
+	@When("User enable High Contrast mode")
 	public void enable_high_contrast() 
 	{
 		landingPage.highContrast();
@@ -139,25 +139,25 @@ public class LandingPageSteps
 		landingPage.remainStable();
 	}
 
-	@And("I enter an emoji in the email input box")
+	@And("User enter an emoji in the email input box")
 	public void enter_emoji_in_first_name()
 	{
 		landingPage.emojiInFirstName();
 	}
 
-	@Then("I should see email input box disabled")
+	@Then("User should see email input box disabled")
 	public void email_button_disabled()
 	{
 		landingPage.emailButtonDisabled();
 	}
 
-	@And("I resize the window to mobile size")
+	@And("User resize the window to mobile size")
 	public void resize_window_to_mobile() 
 	{
 		driver.manage().window().setSize(new Dimension(375, 667));
 	}
 
-	@When("I scroll and click the Get free CRM button")
+	@When("User scroll and click the Get free CRM button")
 	public void i_click_get_free_crm_button()
 	{
 		landingPage.scrollAndClickFreeCrm();
@@ -169,13 +169,13 @@ public class LandingPageSteps
 		System.out.println("Verified that Get Free CRM Button was not accessible on small screen");
 	}
 
-	@When("I scroll down to the footer")
+	@When("User scroll down to the footer")
 	public void scroll_to_footer() 
 	{
 		landingPage.scrollToFooter();
 	}
 
-	@Then("I should see all footer links are displayed")
+	@Then("User should see all footer links are displayed")
 	public void verify_footer_links_are_displayed() 
 	{
 		landingPage.footerLinks();
