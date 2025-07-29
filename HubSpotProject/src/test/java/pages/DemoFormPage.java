@@ -14,14 +14,16 @@ import org.testng.Assert;
  * and PageFactory design patterns.
  *
  * Author: Rithwik Kanchumarthi
- * Date: July 2025
+ * 
  */
-public class DemoFormPage {
+public class DemoFormPage 
+{
 	WebDriver driver;
 	WebDriverWait wait;
 
 	// Constructor to initialize driver and PageFactory
-	public DemoFormPage(WebDriver driver) {
+	public DemoFormPage(WebDriver driver) 
+	{
 		this.driver = driver;
 		this.wait = new WebDriverWait(driver, 20);
 		PageFactory.initElements(driver, this);
@@ -99,10 +101,14 @@ public class DemoFormPage {
 	/**
 	 * Click the form submit button.
 	 */
-	public void submit() {
-		try {
+	public void submit() 
+	{
+		try
+		{
 			wait.until(ExpectedConditions.elementToBeClickable(submitButton)).click();
-		} catch (Exception e) {
+		}
+		catch (Exception e) 
+		{
 			System.out.println("Submit button click failed: " + e.getMessage());
 			Assert.fail("Submit failed");
 		}
@@ -111,10 +117,14 @@ public class DemoFormPage {
 	/**
 	 * Check if the confirmation message or thank you URL is present.
 	 */
-	public boolean confirmationDisplayed() {
-		try {
+	public boolean confirmationDisplayed()
+	{
+		try
+		{
 			return driver.getPageSource().contains("Thank you") || driver.getCurrentUrl().contains("thank-you");
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			System.out.println("Error checking confirmation: " + e.getMessage());
 			return false;
 		}
@@ -123,18 +133,23 @@ public class DemoFormPage {
 	/**
 	 * Submit the form without entering any fields.
 	 */
-	public void submitWithMissingFields() {
+	public void submitWithMissingFields()
+	{
 		submit();
 	}
 
 	/**
 	 * Check if any required field error messages are displayed.
 	 */
-	public boolean isRequiredFieldErrorDisplayed() {
-		try {
+	public boolean isRequiredFieldErrorDisplayed() 
+	{
+		try 
+		{
 			wait.until(ExpectedConditions.visibilityOfAllElements(errorMessages));
 			return errorMessages.stream().anyMatch(WebElement::isDisplayed);
-		} catch (TimeoutException e) {
+		} 
+		catch (TimeoutException e) 
+		{
 			System.out.println("Required field errors not displayed in time.");
 			return false;
 		}
@@ -143,8 +158,10 @@ public class DemoFormPage {
 	/**
 	 * Fill form with invalid email for negative test case.
 	 */
-	public void fillFormWithInvalidEmail() {
-		try {
+	public void fillFormWithInvalidEmail() 
+	{
+		try
+		{
 			firstName.sendKeys("Rithwik Venkatesh");
 			lastName.sendKeys("Kanchumarthi");
 			email.sendKeys("1@g.com");  // Invalid format test
@@ -154,7 +171,9 @@ public class DemoFormPage {
 			selectDropdownByVisibleText(employeesDropdown, "1");
 			selectDropdownByVisibleText(headquartersDropdown, "India");
 			submit();
-		} catch (Exception e) {
+		} 
+		catch (Exception e) 
+		{
 			System.out.println("Error filling form with invalid email: " + e.getMessage());
 			Assert.fail("Form fill with invalid email failed");
 		}
@@ -163,11 +182,15 @@ public class DemoFormPage {
 	/**
 	 * Verify if email-specific error message is displayed.
 	 */
-	public boolean isEmailErrorDisplayed() {
-		try {
+	public boolean isEmailErrorDisplayed()
+	{
+		try
+		{
 			wait.until(ExpectedConditions.visibilityOf(emailError));
 			return emailError.isDisplayed();
-		} catch (TimeoutException e) {
+		} 
+		catch (TimeoutException e)
+		{
 			System.out.println("Email error message not visible.");
 			return false;
 		}
@@ -176,12 +199,16 @@ public class DemoFormPage {
 	/**
 	 * Assert if a heading with specified text is visible.
 	 */
-	public void headingIsVisible(String headingText) {
-		try {
+	public void headingIsVisible(String headingText)
+	{
+		try 
+		{
 			WebElement heading = wait.until(ExpectedConditions.visibilityOfElementLocated(
 					By.xpath("//h1[contains(text(),'" + headingText + "')]")));
 			Assert.assertTrue(heading.isDisplayed(), "Heading is not displayed");
-		} catch (TimeoutException e) {
+		}
+		catch (TimeoutException e)
+		{
 			System.out.println("Heading not found: " + headingText);
 			Assert.fail("Heading visibility check failed");
 		}
