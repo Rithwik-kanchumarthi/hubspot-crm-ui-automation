@@ -11,28 +11,66 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+/**
+ * This class represents the Landing Page of HubSpot CRM.
+ * It includes interaction methods for elements like login, product dropdown, etc.
+ * 
+ * Author: Rithwik Kanchumarthi
+ * 
+ */
 
 public class LandingPage 
 {
 	WebDriver driver;
 	WebDriverWait wait;
 
-	By freeCRMbutton = By.xpath("//a[normalize-space()='Get free CRM']");
-	By submitButton = By.cssSelector("input[type='submit']");
-	By emailError = By.xpath("//label[contains(text(),'Please enter a valid email address.')]");
-	By requiredFieldErrors = By.cssSelector("label.hs-error-msg");
-	By loginButton = By.cssSelector(".global-nav-utility-link.cl-navLink-link.ga_nav_link.nav-utility-login");
-	By acceptCookiesButton = By.id("hs-eu-confirmation-button");
-	By chatframeele = By.cssSelector("iframe[src*='chat']");
-	By chatopenele = By.cssSelector("button[class*='openChat']");
-	By highContrast = By.xpath("//label[contains(.,'High Contrast')]/preceding-sibling::input");
-	By remainStable = By.xpath("//a[text()='Get free CRM']");
-	By invalidCharError = By.xpath("//*[contains(text(),'Please enter a valid')]");
-	By submitemailForm = By.cssSelector("i18n-string[data-key='views.LANDING_PAGE.buttonLabel']");
-	By footer = By.tagName("footer");
-	By footerLinks = By.cssSelector("footer a");
+
+    // Page Elements
+    @FindBy(xpath = "//a[normalize-space()='Get free CRM']")
+    WebElement freeCRMbutton;
+
+    @FindBy(css = "input[type='submit']")
+    WebElement submitButton;
+
+    @FindBy(xpath = "//label[contains(text(),'Please enter a valid email address.')]")
+    WebElement emailError;
+
+    @FindBy(css = "label.hs-error-msg")
+    List<WebElement> requiredFieldErrors;
+
+    @FindBy(css = ".global-nav-utility-link.cl-navLink-link.ga_nav_link.nav-utility-login")
+    WebElement loginButton;
+
+    @FindBy(id = "hs-eu-confirmation-button")
+    WebElement acceptCookiesButton;
+
+    @FindBy(css = "iframe[src*='chat']")
+    WebElement chatframeele;
+
+    @FindBy(css = "button[class*='openChat']")
+    WebElement chatopenele;
+
+    @FindBy(xpath = "//label[contains(.,'High Contrast')]/preceding-sibling::input")
+    WebElement highContrast;
+
+    @FindBy(xpath = "//a[text()='Get free CRM']")
+    WebElement remainStable;
+
+    @FindBy(xpath = "//*[contains(text(),'Please enter a valid')]")
+    WebElement invalidCharError;
+
+    @FindBy(css = "i18n-string[data-key='views.LANDING_PAGE.buttonLabel']")
+    WebElement submitemailForm;
+
+    @FindBy(tagName = "footer")
+    WebElement footer;
+
+    @FindBy(css = "footer a")
+    List<WebElement> footerLinks;
 
 	public LandingPage(WebDriver driver)
 	{
@@ -94,9 +132,9 @@ public class LandingPage
 
 	public void chatWidgetexpand()
 	{
-		WebElement chatFrame = wait.until(ExpectedConditions.visibilityOfElementLocated(chatframeele));
+		WebElement chatFrame = wait.until(ExpectedConditions.visibilityOfElementLocated((By) chatframeele));
 		driver.switchTo().frame(chatFrame);
-		WebElement chatOpen = wait.until(ExpectedConditions.visibilityOfElementLocated(chatopenele));
+		WebElement chatOpen = wait.until(ExpectedConditions.visibilityOfElementLocated((By) chatopenele));
 		chatOpen.click();
 		driver.switchTo().defaultContent();
 	}
@@ -132,7 +170,7 @@ public class LandingPage
 
 	public void remainStable()
 	{
-		WebElement getFreeCrm = wait.until(ExpectedConditions.visibilityOfElementLocated(remainStable));
+		WebElement getFreeCrm = wait.until(ExpectedConditions.visibilityOfElementLocated((By) remainStable));
 		assert getFreeCrm.isDisplayed();
 	}
 
@@ -148,7 +186,7 @@ public class LandingPage
 		acceptCookiesIfPresent();
 		try 
 		{
-			WebElement button = wait.until(ExpectedConditions.presenceOfElementLocated(freeCRMbutton));
+			WebElement button = wait.until(ExpectedConditions.presenceOfElementLocated((By) freeCRMbutton));
 			((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", button);
 			wait.until(ExpectedConditions.elementToBeClickable(button)).click();
 			System.out.println("Clicked 'Get free CRM' button successfully.");
@@ -161,7 +199,7 @@ public class LandingPage
 
 	public void scrollToFooter() 
 	{
-		WebElement footerVar = wait.until(ExpectedConditions.visibilityOfElementLocated(footer));
+		WebElement footerVar = wait.until(ExpectedConditions.visibilityOfElementLocated((By) footer));
 		((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", footerVar);
 	}
 	
@@ -169,7 +207,7 @@ public class LandingPage
 	{
 		handleAlert();
 		acceptCookiesIfPresent();
-		List<WebElement> footerLinksVar = driver.findElements(footerLinks);
+		List<WebElement> footerLinksVar = driver.findElements((By) footerLinks);
 		for (WebElement link : footerLinksVar) 
 		{
 			if (link.isDisplayed()) 
@@ -182,7 +220,7 @@ public class LandingPage
 	
 	public void validateFooterLinks() 
 	{
-		List<WebElement> footerLinksVar = driver.findElements(footerLinks);
+		List<WebElement> footerLinksVar = driver.findElements((By) footerLinks);
 		for (WebElement link : footerLinksVar) 
 		{
 			String href = link.getAttribute("href");

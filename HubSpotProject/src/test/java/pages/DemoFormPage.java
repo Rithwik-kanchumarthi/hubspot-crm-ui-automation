@@ -3,108 +3,187 @@ package pages;
 import java.util.List;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.*;
 import org.testng.Assert;
 
-
-public class DemoFormPage
-{
+/**
+ * This class represents the Demo Form Page in the HubSpot CRM UI Automation Project.
+ * It encapsulates all interactions with the form elements using Page Object Model (POM)
+ * and PageFactory design patterns.
+ *
+ * Author: Rithwik Kanchumarthi
+ * Date: July 2025
+ */
+public class DemoFormPage {
 	WebDriver driver;
-	WebDriverWait explicitWait;
+	WebDriverWait wait;
 
-	By firstName = By.name("firstname");
-	By lastName = By.name("lastname");
-	By email = By.name("email");
-	By phone = By.name("phone");
-	By company = By.name("company");
-	By website = By.name("website");
-	By employees = By.name("employees__c");
-	By headquarters = By.name("country_dropdown");
-	By submitButton = By.cssSelector("input[type='submit']");
-	By errorMsgs = By.cssSelector(".hs-error-msg");
-	By emailErrorelement = By.cssSelector(".hs-error-msg.hs-main-font-element");
-
-	public DemoFormPage(WebDriver driver)
-	{
+	// Constructor to initialize driver and PageFactory
+	public DemoFormPage(WebDriver driver) {
 		this.driver = driver;
+		this.wait = new WebDriverWait(driver, 20);
+		PageFactory.initElements(driver, this);
 	}
 
-	public void fillForm(String fn, String ln, String em, String ph, String co, String we, String emp, String hq) 
-	{
-		driver.findElement(firstName).sendKeys(fn);
-		driver.findElement(lastName).sendKeys(ln);
-		driver.findElement(email).sendKeys(em);
-		driver.findElement(phone).sendKeys(ph);
-		driver.findElement(company).sendKeys(co);
-		driver.findElement(website).sendKeys(we);
-		driver.findElement(employees).sendKeys(emp);
-		driver.findElement(headquarters).sendKeys(hq);
+	// ---------------- WebElements ----------------
+
+	@FindBy(name = "firstname")
+	WebElement firstName;
+
+	@FindBy(name = "lastname")
+	WebElement lastName;
+
+	@FindBy(name = "email")
+	WebElement email;
+
+	@FindBy(name = "phone")
+	WebElement phone;
+
+	@FindBy(name = "company")
+	WebElement company;
+
+	@FindBy(name = "website")
+	WebElement website;
+
+	@FindBy(name = "employees__c")
+	WebElement employeesDropdown;
+
+	@FindBy(name = "country_dropdown")
+	WebElement headquartersDropdown;
+
+	@FindBy(css = "input[type='submit']")
+	WebElement submitButton;
+
+	@FindBy(css = ".hs-error-msg")
+	List<WebElement> errorMessages;
+
+	@FindBy(css = ".hs-error-msg.hs-main-font-element")
+	WebElement emailError;
+
+	// ---------------- Business Methods ----------------
+
+	/**
+	 * Fill the demo form with provided data.
+	 */
+	public void fillForm(String fn, String ln, String em, String ph, String co, String we, String emp, String hq) {
+		try {
+			firstName.sendKeys(fn);
+			lastName.sendKeys(ln);
+			email.sendKeys(em);
+			phone.sendKeys(ph);
+			company.sendKeys(co);
+			website.sendKeys(we);
+			selectDropdownByVisibleText(employeesDropdown, emp);
+			selectDropdownByVisibleText(headquartersDropdown, hq);
+		} catch (Exception e) {
+			System.out.println("Error while filling the form: " + e.getMessage());
+			Assert.fail("Form filling failed");
+		}
 	}
 
-	public void employeesDropdown()
-	{
-		WebElement dropdownElement1 = driver.findElement(employees);
-		Select dropdown = new Select(dropdownElement1);
-		dropdown.selectByVisibleText("1");
+	/**
+	 * Select dropdown value by visible text.
+	 */
+	public void selectDropdownByVisibleText(WebElement dropdownElement, String visibleText) {
+		try {
+			Select dropdown = new Select(dropdownElement);
+			dropdown.selectByVisibleText(visibleText);
+		} catch (Exception e) {
+			System.out.println("Dropdown selection failed for value: " + visibleText);
+			Assert.fail("Dropdown selection failed");
+		}
 	}
 
-	public void headquartersDropdown()
-	{
-		WebElement dropdownElement2 = driver.findElement(headquarters);
-		Select dropdown = new Select(dropdownElement2);
-		dropdown.selectByVisibleText("India");
+	/**
+	 * Click the form submit button.
+	 */
+	public void submit() {
+		try {
+			wait.until(ExpectedConditions.elementToBeClickable(submitButton)).click();
+		} catch (Exception e) {
+			System.out.println("Submit button click failed: " + e.getMessage());
+			Assert.fail("Submit failed");
+		}
 	}
 
-	public void submit()
-	{
-		driver.findElement(submitButton).click();
+	/**
+	 * Check if the confirmation message or thank you URL is present.
+	 */
+	public boolean confirmationDisplayed() {
+		try {
+			return driver.getPageSource().contains("Thank you") || driver.getCurrentUrl().contains("thank-you");
+		} catch (Exception e) {
+			System.out.println("Error checking confirmation: " + e.getMessage());
+			return false;
+		}
 	}
 
-	public boolean confirmationDisplayed() 
-	{
-		return driver.getPageSource().contains("Thank you") || driver.getCurrentUrl().contains("thank-you");
-	}
-
-	public void submitWithMissingFields() 
-	{
+	/**
+	 * Submit the form without entering any fields.
+	 */
+	public void submitWithMissingFields() {
 		submit();
 	}
 
-	public boolean isRequiredFieldErrorDisplayed()
-	{
-		List<WebElement> errors = driver.findElements(errorMsgs);
-		explicitWait.until(ExpectedConditions.visibilityOfAllElements(errors));
-		return errors.stream().anyMatch(WebElement::isDisplayed);
+	/**
+	 * Check if any required field error messages are displayed.
+	 */
+	public boolean isRequiredFieldErrorDisplayed() {
+		try {
+			wait.until(ExpectedConditions.visibilityOfAllElements(errorMessages));
+			return errorMessages.stream().anyMatch(WebElement::isDisplayed);
+		} catch (TimeoutException e) {
+			System.out.println("Required field errors not displayed in time.");
+			return false;
+		}
 	}
 
-	public void fillFormWithInvalidEmail()
-	{
-		driver.findElement(firstName).sendKeys("Rithwik Venkatesh");
-		driver.findElement(lastName).sendKeys("Kanchumarthi");
-		driver.findElement(email).sendKeys("1@g.com");
-		driver.findElement(phone).sendKeys("6303864339");
-		driver.findElement(company).sendKeys("TCS");
-		driver.findElement(website).sendKeys("http://tcs.com");
-		driver.findElement(employees).sendKeys("1");
-		driver.findElement(headquarters).sendKeys("India");
-		submit();
+	/**
+	 * Fill form with invalid email for negative test case.
+	 */
+	public void fillFormWithInvalidEmail() {
+		try {
+			firstName.sendKeys("Rithwik Venkatesh");
+			lastName.sendKeys("Kanchumarthi");
+			email.sendKeys("1@g.com");  // Invalid format test
+			phone.sendKeys("6303864339");
+			company.sendKeys("TCS");
+			website.sendKeys("http://tcs.com");
+			selectDropdownByVisibleText(employeesDropdown, "1");
+			selectDropdownByVisibleText(headquartersDropdown, "India");
+			submit();
+		} catch (Exception e) {
+			System.out.println("Error filling form with invalid email: " + e.getMessage());
+			Assert.fail("Form fill with invalid email failed");
+		}
 	}
 
-	public boolean isEmailErrorDisplayed()
-	{
-		WebElement emailError = driver.findElement(emailErrorelement);
-		explicitWait.until(ExpectedConditions.visibilityOf(emailError));
-		return emailError.isDisplayed();
+	/**
+	 * Verify if email-specific error message is displayed.
+	 */
+	public boolean isEmailErrorDisplayed() {
+		try {
+			wait.until(ExpectedConditions.visibilityOf(emailError));
+			return emailError.isDisplayed();
+		} catch (TimeoutException e) {
+			System.out.println("Email error message not visible.");
+			return false;
+		}
 	}
 
-	public void headingIsVisible(String headingText)
-	{
-		WebElement heading = explicitWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[contains(text(),'" + headingText + "')]")));
-		boolean headingtext = heading.isDisplayed();
-		Assert.assertTrue(headingtext);
-		
+	/**
+	 * Assert if a heading with specified text is visible.
+	 */
+	public void headingIsVisible(String headingText) {
+		try {
+			WebElement heading = wait.until(ExpectedConditions.visibilityOfElementLocated(
+					By.xpath("//h1[contains(text(),'" + headingText + "')]")));
+			Assert.assertTrue(heading.isDisplayed(), "Heading is not displayed");
+		} catch (TimeoutException e) {
+			System.out.println("Heading not found: " + headingText);
+			Assert.fail("Heading visibility check failed");
+		}
 	}
-
 }
