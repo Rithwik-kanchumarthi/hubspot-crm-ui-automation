@@ -17,7 +17,7 @@ This repository contains an automated test framework for validating the **HubSpo
 Rithwik Kanchumarthi
 
 📌 Future Enhancements
-CI/CD with GitHub Actions or Jenkins
+CI/CD with Jenkins
 
 Browser compatibility testing
 Parallel Testing
